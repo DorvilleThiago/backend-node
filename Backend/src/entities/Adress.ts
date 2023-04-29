@@ -7,7 +7,7 @@ export class Adress {
     id!: string;
 
     @Column()
-    cep!: number;
+    cep!: string;
 
     @Column()
     cidade!: string;

@@ -8,13 +8,27 @@ const adressDataSource = AppDataSource.getRepository(Adress)
 class UserRepository {
 
     async index() {
-        const Users = await userDataSource.find();
-        return Users;
+        try {
+        const Users = await userDataSource.find({
+            relations: {
+                adress: true
+            }
+        });
+            return Users;
+        } catch (err) {
+            console.log(err)
+            return undefined
+        }
     }
 
     async findOneByEmail(email: string) {
-        const person = await userDataSource.findOneBy({ email: email })
-        return person ? true : false;
+        try {
+            const person = await userDataSource.findOneBy({ email: email })
+            return person;
+        } catch (err) {
+            console.log(err)
+            return undefined;
+        }
     }
 
     async create({id, username, email, password, adress, phoneNumber }: User) {
@@ -39,25 +53,31 @@ class UserRepository {
             newUser.adress = newAdress
 
             await userDataSource.save(newUser)
-        } catch (err) { 
+
+            return true;
+        } catch (err) {  
             console.log(err)
+            return false;
         }
     }
 
     async delete(id: User) {
         try {
-            console.log(id)
             await userDataSource.delete(id)
+            return true;
         } catch (err) { 
             console.log(err)
+            return false;
         }
     }
 
     async deleteAll() {
         try {
             await userDataSource.delete({})
+            return true;
         } catch (err) {
             console.log(err)
+            return false;
         }
     }
 
