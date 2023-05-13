@@ -1,6 +1,7 @@
 import UserRepository from "../repositories/UserRepository";
 import { Request, Response } from "express";
 import { randomUUID } from "node:crypto";
+import AppError from "../errors/AppError";
 
 class UserController{
 
@@ -14,24 +15,23 @@ class UserController{
         //Verificando se já existe no banco de dados
         const alreadyThere = await UserRepository.findOneByEmail(email);
         if (alreadyThere) { 
-            res.status(400).json({ error: "User already exists" })
-            return;
+            throw new AppError('User already exists')
         }
         const id = randomUUID()
-        const query = await UserRepository.create({ id, username, email, password, adress, phoneNumber });
-        query ? res.status(201).json() : res.status(400).json()
+        await UserRepository.create({ id, username, email, password, adress, phoneNumber, pedidos: [] });
+        return res.status(201).json()
     }
 
     async delete(req: Request, res: Response) { 
         const { id } = req.body; 
-        const query = await UserRepository.delete(id)
-        query ? res.status(204).json() : res.status(400).json();
+        await UserRepository.delete(id)
+        return res.status(204).json()
     }
 
     async deleteAll(req: Request, res: Response) { 
         const query = await UserRepository.deleteAll()
-        query ? res.status(201).json() : res.status(400).json()
+        return res.status(201).json()
     }
 
 }
-export default new UserController()
+export default UserController

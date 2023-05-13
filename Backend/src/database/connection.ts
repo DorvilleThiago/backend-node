@@ -3,6 +3,7 @@ import { DataSource } from 'typeorm';
 import dotenv from 'dotenv';
 import { User } from '../entities/User';
 import { Adress } from "../entities/Adress";
+import { Pedido } from "../entities/Pedido";
 
 
 dotenv.config();
@@ -15,7 +16,7 @@ export const AppDataSource = new DataSource({
     database: "wzupdkwi",
     synchronize: true,
     logging: false,
-    entities: [User, Adress],
+    entities: [User, Adress, Pedido],
     subscribers: [],
     migrations: [],
 })
