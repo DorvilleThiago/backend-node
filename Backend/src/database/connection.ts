@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import { User } from '../entities/User';
 import { Adress } from "../entities/Adress";
 import { Pedido } from "../entities/Pedido";
+import { Produto } from "../entities/Produto";
 
 
 dotenv.config();
@@ -16,7 +17,7 @@ export const AppDataSource = new DataSource({
     database: "wzupdkwi",
     synchronize: true,
     logging: false,
-    entities: [User, Adress, Pedido],
+    entities: [User, Adress, Pedido, Produto],
     subscribers: [],
     migrations: [],
 })
