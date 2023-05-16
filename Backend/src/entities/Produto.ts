@@ -7,10 +7,10 @@ export class Produto {
     id!: string;
 
     @Column()
-    nome!: number;
+    nome!: string;
 
     @Column()
-    preco!: string;
+    preco!: number;
 
     @Column()
     descricao!: string;
