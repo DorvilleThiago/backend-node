@@ -6,13 +6,19 @@ import {
 } from "react-router-dom";
 
 import LandingPage from './pages/LandingPage'
+import ErrorPage from './pages/ErrorPage'
+import LoginPage from './pages/LoginPage';
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <LandingPage />,
-    errorElement: <>Página não encontrada</>
+    errorElement: <ErrorPage />
   },
+  {
+    path: "/login",
+    element: <LoginPage />
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(

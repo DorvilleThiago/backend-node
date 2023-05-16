@@ -10,6 +10,26 @@ class UserController{
         users ? res.json(users) : res.status(401)
     }
 
+    async login(req: Request, res: Response) {
+        const { email, password } = req.body;
+        const user = await UserRepository.findOneByEmail(email)
+        if (user) {
+            if (user.password = password) {
+                return res.status(200).json({
+                    message: "Logado com sucesso!"
+                })
+            } else {
+                return res.status(401).json({
+                    message: "Senha inválida"
+                })
+            }
+        } else {
+            return res.status(401).json({
+                message: "Email inválido"
+            })
+        }
+     }
+
     async create(req:Request, res:Response) {
         const { username, email, password, adress, phoneNumber } = req.body;
         //Verificando se já existe no banco de dados
