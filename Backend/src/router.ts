@@ -13,13 +13,15 @@ routes.get('/user', userController.index)
 routes.post('/user', userController.create)
 routes.delete('/user', userController.delete)
 
+routes.post('/login', userController.login)
+
 routes.get('/pedido', pedidoController.index)
 routes.post('/pedido', pedidoController.create)
 
 routes.get('/produto', produtoController.index)
 routes.post('/produto', produtoController.create)
 
-routes.get('/deleteall', userController.deleteAll)
-
+routes.get('/deleteallusers', userController.deleteAll)
+routes.get('/deleteallorders', pedidoController.deleteAll)
 
 export default routes;

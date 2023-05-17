@@ -16,13 +16,9 @@ export class User {
     @Column()
     password!: string;
 
-    @OneToOne(() => Adress)
-    @JoinColumn()
-    adress!: Adress;
-
-    @OneToMany(() => Pedido, (pedido) => pedido.user)
-    pedidos!: Pedido[];
-
     @Column()
     phoneNumber!: string;
+
+    @Column()
+    token!: string;
 }

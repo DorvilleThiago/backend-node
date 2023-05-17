@@ -8,10 +8,11 @@ class ProdutoController {
         return res.status(200).json(produtos)
     }
     async create(req: Request, res: Response) { 
-        const { nome, descricao, preco } = req.body
+        const { nome, descricao, preco, categoria } = req.body
         const id = randomUUID()
-        await ProdutoRepository.create({ id, nome, descricao, preco })
+        await ProdutoRepository.create({ id, nome, descricao, preco, categoria })
         return res.status(201).json()
     }
+    
 }
 export default ProdutoController;

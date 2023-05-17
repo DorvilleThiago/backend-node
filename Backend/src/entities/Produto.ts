@@ -14,4 +14,7 @@ export class Produto {
 
     @Column()
     descricao!: string;
+
+    @Column({nullable: true})
+    categoria!: string;
 }

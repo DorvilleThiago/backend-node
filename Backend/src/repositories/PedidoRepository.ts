@@ -16,19 +16,28 @@ class PedidoRepository {
         }
     }
     
-    async create({details, time, date, userId }: pedidoCreateDto) {
+    async create({details, time, date, userId, status }: pedidoCreateDto) {
         try {
             const pedido = pedidoDataSource.create({
                 details,
                 time,
                 date,
-                userId
+                userId,
+                status
             })
             await pedidoDataSource.save(pedido);
             return pedido;
         } catch (err) { 
             console.log(err)
             throw new AppError("Error in order")
+        }
+    }
+    
+    async deleteAll() {
+        try {
+            await pedidoDataSource.delete({})
+        } catch (err) {
+            throw new AppError("Error in deleting all orders")
         }
     }
 

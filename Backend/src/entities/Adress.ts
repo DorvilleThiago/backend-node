@@ -4,7 +4,7 @@ import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
 export class Adress {
 
     @PrimaryGeneratedColumn("uuid")
-    id!: string;
+    user_id!: string;
 
     @Column()
     cep!: string;
@@ -22,6 +22,6 @@ export class Adress {
     numero!: string;
 
     @Column()
-    referência!: string;
+    referencia!: string;
 
 }

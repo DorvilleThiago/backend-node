@@ -9,10 +9,15 @@ class PedidoController {
     }
     async create(req: Request, res: Response) {
         const { details, time, date, userId } = req.body
+        const status = 'pendente'
         await PedidoRepository.create({
-            details, time, date, userId
+            details, time, date, userId, status
         })
         return res.sendStatus(201)
+    }
+    async deleteAll(req: Request, res: Response) { 
+        await PedidoRepository.deleteAll()
+        return res.status(201).json()
     }
 
 }

@@ -16,14 +16,15 @@ class ProdutoRepository {
         }
     }
 
-    async create({id, nome, preco, descricao}: Produto) {
+    async create({id, nome, preco, descricao, categoria}: Produto) {
         try {
             console.log({id, nome, preco, descricao})
             const produto = produtoDataSource.create({
                 id,
                 nome,
                 preco,
-                descricao
+                descricao,
+                categoria
             })
             await produtoDataSource.save(produto);
         } catch (err) { 

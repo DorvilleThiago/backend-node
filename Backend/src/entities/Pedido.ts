@@ -8,7 +8,7 @@ export class Pedido {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @Column()
+    @Column({nullable: true})
     userId!: string;
 
     @Column()
@@ -20,10 +20,7 @@ export class Pedido {
     @Column()
     date!: string;
 
-    @ManyToOne(() => User, (user) => user.pedidos)
-    @JoinColumn({
-        name: "userId"
-    })
-    user!: User
+    @Column()
+    status!: string;
 
 }

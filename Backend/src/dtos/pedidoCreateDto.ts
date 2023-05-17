@@ -2,5 +2,6 @@ export interface pedidoCreateDto{
     details: string,
     time: string,
     date: string,
-    userId: string
+    userId: string,
+    status: string
 }

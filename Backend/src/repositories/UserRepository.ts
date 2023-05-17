@@ -10,18 +10,22 @@ class UserRepository {
 
     async index() {
         try {
-        const Users = await userDataSource.find({
-            relations: {
-                adress: true,
-                pedidos: true,
-            }
+        let Users = await userDataSource.find({
         });
             return Users;
         } catch (err) {
             throw new AppError("Error getting the users from the database")
         }
-    }
+    } 
 
+    async update(user: object) {
+        try {
+            await userDataSource.save(user)
+        } catch (err) {
+            throw new AppError("Error updating the user in the database")
+        }
+    }
+    
     async findOneByEmail(email: string) {
         try {
             const person = await userDataSource.findOneBy({ email: email })
@@ -31,7 +35,7 @@ class UserRepository {
         }
     }
 
-    async create({id, username, email, password, adress, phoneNumber, pedidos }: User) {
+    async create({id, username, email, password, adress, phoneNumber, token }: any) {
         try {
             const newUser = new User()
                 newUser.id = id;
@@ -39,20 +43,20 @@ class UserRepository {
                 newUser.email = email
                 newUser.password = password
                 newUser.phoneNumber = phoneNumber
-                newUser.pedidos = pedidos
+                newUser.token = token
             const newAdress = new Adress()
-                newAdress.id = id
+                newAdress.user_id = id
                 newAdress.cep = adress.cep
                 newAdress.cidade = adress.cidade
                 newAdress.bairro = adress.bairro
                 newAdress.rua = adress.rua
                 newAdress.numero = adress.numero
-                newAdress.referência = adress.referência
+                newAdress.referencia = adress.referencia
 
             await adressDataSource.save(newAdress)
-                newUser.adress = newAdress
             await userDataSource.save(newUser)
         } catch (err) {  
+            console.log(err)
             throw new AppError("Error creating user")
         }
     }
@@ -60,9 +64,7 @@ class UserRepository {
     async delete(id: User) {
         try {
             await userDataSource.delete(id)
-            return true;
         } catch (err) { 
-            console.log(err)
             throw new AppError("Error deleting user")
         }
     }
@@ -71,6 +73,7 @@ class UserRepository {
         try {
             await userDataSource.delete({})
         } catch (err) {
+            console.log(err+'1')
             throw new AppError("Error deleting all users")
         }
     }

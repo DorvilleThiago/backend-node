@@ -1,0 +1,22 @@
+============================================
+
+    USUÁRIOS
+
+- Devem ser capazes de fazer pedidos com múltiplos produtos
+- Devem ser capazes de acompanhar o status do seu pedido
+
+============================================
+
+    FUNCIONARIOS
+
+- Devem ser capazes de ver uma lista dos pedidos (ordenada do mais novo para o mais antigo)
+- Devem ser capazes de alterar o status de um pedido
+- Devem ser capazes de alterar dados cadastrais dos usuários
+
+============================================
+
+    ADMINISTRADORES
+
+- Devem ser capazes de alterar dados cadastrais dos funcionários
+
+============================================
