@@ -56,7 +56,6 @@ class UserRepository {
             await adressDataSource.save(newAdress)
             await userDataSource.save(newUser)
         } catch (err) {  
-            console.log(err)
             throw new AppError("Error creating user")
         }
     }
