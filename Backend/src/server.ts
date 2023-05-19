@@ -5,10 +5,12 @@ import 'express-async-errors'
 import { AppDataSource } from './database/connection';
 import AppError from "./errors/AppError";
 import routes from './router';
+const cors = require('cors');
 
 // SETUP //
 
 const app: Express = express();
+app.use(cors());
 const port = process.env.PORT;
 AppDataSource.initialize().then(() => console.log('connected')).catch((error) => console.log(error))
 

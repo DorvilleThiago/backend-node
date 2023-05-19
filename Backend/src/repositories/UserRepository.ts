@@ -43,7 +43,6 @@ class UserRepository {
                 newUser.email = email
                 newUser.password = password
                 newUser.phoneNumber = phoneNumber
-                newUser.token = token
             const newAdress = new Adress()
                 newAdress.user_id = id
                 newAdress.cep = adress.cep
@@ -52,7 +51,6 @@ class UserRepository {
                 newAdress.rua = adress.rua
                 newAdress.numero = adress.numero
                 newAdress.referencia = adress.referencia
-
             await adressDataSource.save(newAdress)
             await userDataSource.save(newUser)
         } catch (err) {  

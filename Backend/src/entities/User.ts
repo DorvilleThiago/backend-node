@@ -18,7 +18,4 @@ export class User {
 
     @Column()
     phoneNumber!: string;
-
-    @Column()
-    token!: string;
 }

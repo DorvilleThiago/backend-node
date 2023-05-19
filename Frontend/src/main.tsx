@@ -3,20 +3,39 @@ import './index.css'
 import {
   createBrowserRouter,
   RouterProvider,
+  Navigate
 } from "react-router-dom";
 
 import LandingPage from './pages/LandingPage'
 import ErrorPage from './pages/ErrorPage'
 import LoginPage from './pages/LoginPage';
 
+function loginIfNotLogged(page: any) {
+  const loggedIn = true;
+  if (loggedIn) {
+    return page
+  } else {
+    return <Navigate to="/entrar" replace/>
+  }
+}
+
+//function indexRedirect() {
+//  const loggedIn = false;
+//  if (loggedIn) {
+//    return null
+//  } else {
+//    return <LandingPage/>
+//  }
+//}
+
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <LandingPage />,
+    element: loginIfNotLogged(<LandingPage/>),
     errorElement: <ErrorPage />
   },
   {
-    path: "/login",
+    path: "/entrar",
     element: <LoginPage />
   }
 ]);
