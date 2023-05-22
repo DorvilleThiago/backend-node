@@ -11,12 +11,12 @@
 
 - Devem ser capazes de ver uma lista dos pedidos (ordenada do mais novo para o mais antigo)
 - Devem ser capazes de alterar o status de um pedido
-- Devem ser capazes de alterar dados cadastrais dos usuários
 
 ============================================
 
-    ADMINISTRADORES
+    ADMINISTRADORES (via sql direto)
 
 - Devem ser capazes de alterar dados cadastrais dos funcionários
+- Devem ser capazes de alterar dados cadastrais dos usuários
 
 ============================================

@@ -1,4 +1,5 @@
 import { FormEvent, useState } from "react"
+import { Link } from "react-router-dom";
 
 export default function LoginPage() {
 
@@ -19,8 +20,9 @@ export default function LoginPage() {
           }),
        });
         if (response.ok) { 
-          console.log('tá logadinho eim')
-        }
+          const resposta = await response.json();
+          localStorage.setItem('token', resposta.token);
+      } 
       } catch (err) {
         console.log('Erro:', err);
       }
@@ -36,7 +38,8 @@ export default function LoginPage() {
                 <label htmlFor="password"></label>
                 <input type="password" id="password" onChange={event => setPasswordState(event.target.value)}></input>
             </div>
-            <button type="submit">logar</button>
+        <button type="submit">logar</button>
+        <Link to="/">Clique aqui voltar</Link>
         </form>
     </>)
 }

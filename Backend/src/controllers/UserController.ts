@@ -26,24 +26,23 @@ class UserController{
         if (!(await bcrypt.compare(password, user.password))) {
             return res.status(401).json({ error: "Wrong password" });
         }
-
         const token = jwt.sign({ user_id: user.id, email }, process.env.TOKEN_KEY, {
-            expiresIn: "2m",
+            expiresIn: "1h",
         });
 
-        return res.status(200).cookie('token', token, { httpOnly: true}).send();
+        return res.status(200).json({token: token}).send();
     }
 
     async validate(req: Request, res: Response) {
-        const { token } = req.cookies;
+        const token = req.headers.authorization;
         if (!token) {
             return res.status(401).json({ error: "No token provided" });
         }
         try {
             const decoded = jwt.verify(token, process.env.TOKEN_KEY);
-            return res.status(200).json({ valid: true });
+            return res.status(200).json({ valid: true, email: decoded.email });
           } catch (error) {
-            return res.status(400)
+            return res.status(401).json({ valid: false })
           }
     }
 
@@ -59,11 +58,11 @@ class UserController{
             { user_id: id, email },
             process.env.TOKEN_KEY,
             {
-              expiresIn: "2m",
+              expiresIn: "1h",
             }
         );
         const newUser = await UserRepository.create({ id, username, email, password, adress, phoneNumber});
-        return res.status(201).cookie('token', token, {httpOnly: true}).send()
+        return res.status(201).json({token: token}).send()
     }
 
     async delete(req: Request, res: Response) { 
