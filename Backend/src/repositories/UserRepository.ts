@@ -70,6 +70,7 @@ class UserRepository {
     async deleteAll() {
         try {
             await userDataSource.delete({})
+            await adressDataSource.delete({})
         } catch (err) {
             console.log(err+'1')
             throw new AppError("Error deleting all users")

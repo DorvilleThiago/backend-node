@@ -1,10 +1,12 @@
 import { FormEvent, useState } from "react"
 import { Link } from "react-router-dom";
+import ReCAPTCHA from "react-google-recaptcha";
 
 export default function LoginPage() {
 
     const [emailState, setEmailState] = useState('')
     const [passwordState, setPasswordState] = useState('')
+    const [verified, setVerified] = useState(false)
       
     async function Submit(event: FormEvent<HTMLFormElement>, email: string, password: string) {
       event.preventDefault();
@@ -38,7 +40,8 @@ export default function LoginPage() {
             <div>
                 <label htmlFor="password"></label>
                 <input type="password" id="password" onChange={event => setPasswordState(event.target.value)}></input>
-            </div>
+        </div>
+        
         <button type="submit">logar</button>
         <Link to="/">Clique aqui voltar</Link>
         </form>
