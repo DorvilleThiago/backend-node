@@ -26,7 +26,7 @@ class UserController{
         if (!(await bcrypt.compare(password, user.password))) {
             return res.status(401).json({ error: "Wrong password" });
         }
-        const token = jwt.sign({ user_id: user.id, email }, process.env.TOKEN_KEY, {
+        const token = jwt.sign({ user_id: user.id, email, employee: user.admin }, process.env.TOKEN_KEY, {
             expiresIn: "1h",
         });
 
@@ -35,12 +35,13 @@ class UserController{
 
     async validate(req: Request, res: Response) {
         const token = req.headers.authorization;
+        const admin = false
         if (!token) {
             return res.status(401).json({ error: "No token provided" });
         }
         try {
             const decoded = jwt.verify(token, process.env.TOKEN_KEY);
-            return res.status(200).json({ valid: true, email: decoded.email });
+            return res.status(200).json({ valid: true, employee: decoded.employee });
           } catch (error) {
             return res.status(401).json({ valid: false })
           }
@@ -55,7 +56,7 @@ class UserController{
         }   
         const id = randomUUID()
         const token = jwt.sign(
-            { user_id: id, email },
+            { user_id: id, email, employee: false },
             process.env.TOKEN_KEY,
             {
               expiresIn: "1h",

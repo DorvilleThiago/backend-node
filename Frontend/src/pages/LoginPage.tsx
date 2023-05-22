@@ -22,6 +22,7 @@ export default function LoginPage() {
         if (response.ok) { 
           const resposta = await response.json();
           localStorage.setItem('token', resposta.token);
+          console.log('logado')
       } 
       } catch (err) {
         console.log('Erro:', err);

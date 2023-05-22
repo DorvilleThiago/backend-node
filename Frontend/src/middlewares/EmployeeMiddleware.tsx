@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 
-export const ReverseAuth = ({ children }: any) => {
+export const EmployeeMiddleware = ({ children }: any) => {
 
-  const [page, setPage] = useState(<>Carregando...</>)
+  const [pagina, setPagina] = useState(<>Carregando...</>)
   const location = useLocation();
-    
+
   useEffect(() => {
    const log = async() => {
       const resposta = await fetch('http://localhost:8000/validate', {
@@ -15,15 +15,16 @@ export const ReverseAuth = ({ children }: any) => {
            'Authorization': ''+localStorage.getItem('token')
          }
       });
-      if (resposta.status === 200) {
-        setPage(<Navigate to='/pedir'/>)
+      const check = await resposta.json()
+     if (resposta.status === 200 && check.employee) {
+        setPagina(children)
       } else {
-        setPage(children)
+        setPagina(<Navigate to='/'/>)
       }
     }
   log()
   }, [location])
   
-  return page
+  return pagina
   
 };

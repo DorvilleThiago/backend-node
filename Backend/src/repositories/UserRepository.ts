@@ -35,7 +35,7 @@ class UserRepository {
         }
     }
 
-    async create({id, username, email, password, adress, phoneNumber, token }: any) {
+    async create({id, username, email, password, adress, phoneNumber}: any) {
         try {
             const newUser = new User()
                 newUser.id = id;
@@ -43,6 +43,7 @@ class UserRepository {
                 newUser.email = email
                 newUser.password = password
                 newUser.phoneNumber = phoneNumber
+                newUser.admin = false
             const newAdress = new Adress()
                 newAdress.user_id = id
                 newAdress.cep = adress.cep

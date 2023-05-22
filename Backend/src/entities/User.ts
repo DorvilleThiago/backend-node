@@ -18,4 +18,7 @@ export class User {
 
     @Column()
     phoneNumber!: string;
+
+    @Column()
+    admin!: boolean;
 }
