@@ -2,8 +2,11 @@ import UserRepository from "../repositories/UserRepository";
 import { Request, Response } from "express";
 import { randomUUID } from "node:crypto";
 import AppError from "../errors/AppError";
+import CaptchaRepository from "../repositories/CaptchaRepository";
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+
+
 
 class UserController{
 
@@ -13,11 +16,13 @@ class UserController{
     }
 
     async login(req: Request, res: Response) {
-        const { email, password } = req.body;
-        if (!email || !password) {
+        const { email, password, captcha } = req.body;
+        if (!email || !password || !captcha) {
             return res.status(400).send("All input is required");
         }
-
+        if (!await CaptchaRepository.verifyCaptcha(captcha)) {
+            return res.status(401).json({ message: "Invalid captcha" });
+        }
         const user = await UserRepository.findOneByEmail(email);
         if (!user) {
             return res.status(401).json({ message: "Invalid email" });
@@ -26,6 +31,7 @@ class UserController{
         if (!(await bcrypt.compare(password, user.password))) {
             return res.status(401).json({ error: "Wrong password" });
         }
+
         const token = jwt.sign({ user_id: user.id, email, employee: user.admin }, process.env.TOKEN_KEY, {
             expiresIn: "1h",
         });
@@ -35,7 +41,6 @@ class UserController{
 
     async validate(req: Request, res: Response) {
         const token = req.headers.authorization;
-        const admin = false
         if (!token) {
             return res.status(401).json({ error: "No token provided" });
         }
@@ -48,7 +53,13 @@ class UserController{
     }
 
     async create(req: Request, res: Response) {
-        let { username, email, password, adress, phoneNumber } = req.body;
+        let { username, email, password, adress, phoneNumber, captcha } = req.body;
+        if (!email || !password || !captcha || !adress || !phoneNumber) {
+            return res.status(400).send("All input is required");
+        }
+        if (!await CaptchaRepository.verifyCaptcha(captcha)) {
+            return res.status(401).json({ message: "Invalid captcha" });
+        }
         password = await bcrypt.hash(password, 10);
         const alreadyThere = await UserRepository.findOneByEmail(email);
         if (alreadyThere) { 

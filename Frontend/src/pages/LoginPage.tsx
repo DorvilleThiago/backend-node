@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react"
+import { FormEvent, useRef, useState } from "react"
 import { Link } from "react-router-dom";
 import ReCAPTCHA from "react-google-recaptcha";
 
@@ -7,6 +7,15 @@ export default function LoginPage() {
     const [emailState, setEmailState] = useState('')
     const [passwordState, setPasswordState] = useState('')
     const [verified, setVerified] = useState(false)
+    const [token, setToken] = useState<string | null>(null);
+  
+    const captchaObj = useRef(null) 
+  
+    const handleVerify = (token: string | null) => {
+      console.log(token); // Access the token here
+      setToken(token);
+      setVerified(true);
+    };
       
     async function Submit(event: FormEvent<HTMLFormElement>, email: string, password: string) {
       event.preventDefault();
@@ -18,7 +27,8 @@ export default function LoginPage() {
           },
           body: JSON.stringify({
             email,
-            password
+            password,
+            captcha: token
           }),
        });
         if (response.ok) { 
@@ -29,7 +39,7 @@ export default function LoginPage() {
       } catch (err) {
         console.log('Erro:', err);
       }
-    }
+  }
 
     return (<>
         <form onSubmit={(event) => Submit(event, emailState, passwordState)}>
@@ -39,10 +49,16 @@ export default function LoginPage() {
             </div>
             <div>
                 <label htmlFor="password"></label>
-                <input type="password" id="password" onChange={event => setPasswordState(event.target.value)}></input>
+          <input type="password" id="password" onChange={event => setPasswordState(event.target.value)}></input>
+          <ReCAPTCHA
+            ref={captchaObj}
+            theme="dark"
+            onChange={handleVerify}
+            sitekey={import.meta.env.VITE_REACT_APP_SITE_KEY}
+          />
         </div>
         
-        <button type="submit">logar</button>
+        <button  disabled={!verified} type="submit">logar</button>
         <Link to="/">Clique aqui voltar</Link>
         </form>
     </>)
